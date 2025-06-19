@@ -1,0 +1,189 @@
+import React, { useState } from 'react';
+import Encabezado from './Encabezado';
+import Tabla from './Tabla';
+import { useTabla } from '../contexts/TablaContext';
+import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, Legend } from 'recharts';
+
+export default function Histo_Frec() {
+    const { tabla } = useTabla();
+    const [tipoDatos, setTipoDatos] = useState("desagrupados");
+    const [resultado, setResultado] = useState([]);
+    const [infoAgrupados, setInfoAgrupados] = useState(null);
+
+    const calcularFrecuencias = () => {
+        const datosNumericos = tabla.map(Number).filter(n => !isNaN(n));
+        if (tipoDatos === "desagrupados") {
+            const conteo = {};
+            datosNumericos.forEach(valor => {
+                conteo[valor] = (conteo[valor] || 0) + 1;
+            });
+
+            const total = datosNumericos.length;
+            const ordenado = Object.entries(conteo)
+                .map(([valor, frecuencia]) => ({ valor: Number(valor), frecuencia }))
+                .sort((a, b) => a.valor - b.valor);
+
+            let freqAcum = 0;
+            const resultadoCalculado = ordenado.map((item) => {
+                freqAcum += item.frecuencia;
+                return {
+                    valor: item.valor,
+                    frecuencia: item.frecuencia,
+                    frecRelativa: item.frecuencia / total,
+                    frecAcumulada: freqAcum,
+                    frecRelAcumulada: freqAcum / total
+                };
+            });
+
+            setResultado(resultadoCalculado);
+            setInfoAgrupados(null);
+        } else {
+            // Agrupados
+            const n = datosNumericos.length;
+            const min = Math.min(...datosNumericos);
+            const max = Math.max(...datosNumericos);
+            const rango = max - min;
+            const k = Math.round(1 + 3.3 * Math.log10(n));
+            const w = Math.ceil(rango / k);
+
+            const clases = [];
+            let limInf = min;
+            let freqAcum = 0;
+
+            for (let i = 0; i < k; i++) {
+                const limSup = limInf + w;
+                const clase = `${limInf.toFixed(2)} - ${limSup.toFixed(2)}`;
+                const marca = (limInf + limSup) / 2;
+
+                // frecuencia de datos dentro del intervalo (excluyendo el último sup)
+                const frecuencia = datosNumericos.filter(d => {
+                    if (i === k - 1) return d >= limInf && d <= limSup; // incluir extremo superior en la última clase
+                    return d >= limInf && d < limSup;
+                }).length;
+
+                freqAcum += frecuencia;
+
+                clases.push({
+                    clase,
+                    limInf,
+                    limSup,
+                    marca,
+                    frecuencia,
+                    frecAcumulada: freqAcum,
+                    frecRelativa: frecuencia / n,
+                    frecRelAcumulada: freqAcum / n
+                });
+
+                limInf = limSup;
+            }
+
+            setResultado(clases);
+            setInfoAgrupados({ n, min, max, rango, k, w });
+        }
+    };
+
+    return (
+        <div>
+            <Encabezado />
+            <h2>Histograma y Tabla de Frecuencias</h2>
+            <Tabla />
+
+            <div style={{ margin: '20px 0' }}>
+                <label>Tipo de datos:&nbsp;</label>
+                <select
+                    value={tipoDatos}
+                    onChange={(e) => {
+                        setTipoDatos(e.target.value);
+                        setResultado([]);
+                        setInfoAgrupados(null);
+                    }}
+                >
+                    <option value="desagrupados">Desagrupados</option>
+                    <option value="agrupados">Agrupados</option>
+                </select>
+            </div>
+
+            <button onClick={calcularFrecuencias}>Calcular</button>
+
+            {infoAgrupados && (
+                <div style={{ marginTop: '20px' }}>
+                    <h3>Parámetros agrupados</h3>
+                    <p><strong>Total de datos:</strong> {infoAgrupados.n}</p>
+                    <p><strong>Mínimo:</strong> {infoAgrupados.min}</p>
+                    <p><strong>Máximo:</strong> {infoAgrupados.max}</p>
+                    <p><strong>Rango:</strong> {infoAgrupados.rango}</p>
+                    <p><strong>Amplitud (k):</strong> {infoAgrupados.k}</p>
+                    <p><strong>Tamaño de clase (w):</strong> {infoAgrupados.w}</p>
+                </div>
+            )}
+
+            {resultado.length > 0 && (
+                <div style={{ marginTop: '20px' }}>
+                    <h3>Tabla de Frecuencias</h3>
+                    <table border="1" cellPadding="5">
+                        <thead>
+                            <tr>
+                                {tipoDatos === 'agrupados' ? (
+                                    <>
+                                        <th>Clase</th>
+                                        <th>Límite Inferior</th>
+                                        <th>Límite Superior</th>
+                                        <th>Marca de Clase</th>
+                                    </>
+                                ) : (
+                                    <th>Cantidad no conforme</th>
+                                )}
+                                <th>Frecuencia</th>
+                                <th>Frecuencia Relativa</th>
+                                <th>Frecuencia Acumulada</th>
+                                <th>Frecuencia Relativa Acumulada</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {resultado.map((row, i) => (
+                                <tr key={i}>
+                                    {tipoDatos === 'agrupados' ? (
+                                        <>
+                                            <td>{row.clase}</td>
+                                            <td>{row.limInf.toFixed(2)}</td>
+                                            <td>{row.limSup.toFixed(2)}</td>
+                                            <td>{row.marca.toFixed(2)}</td>
+                                        </>
+                                    ) : (
+                                        <td>{row.valor}</td>
+                                    )}
+                                    <td>{row.frecuencia}</td>
+                                    <td>{row.frecRelativa.toFixed(2)}</td>
+                                    <td>{row.frecAcumulada}</td>
+                                    <td>{row.frecRelAcumulada.toFixed(2)}</td>
+                                </tr>
+                            ))}
+                        </tbody>
+                    </table>
+
+                    <div style={{ marginTop: '40px' }}>
+                        <h4>Histograma de Frecuencia</h4>
+                        <BarChart width={600} height={300} data={resultado}>
+                            <CartesianGrid strokeDasharray="3 3" />
+                            <XAxis dataKey={tipoDatos === "agrupados" ? "clase" : "valor"} />
+                            <YAxis />
+                            <Tooltip />
+                            <Legend />
+                            <Bar dataKey="frecuencia" fill="#8884d8" />
+                        </BarChart>
+
+                        <h4 style={{ marginTop: '40px' }}>Histograma de Frecuencia Acumulada</h4>
+                        <BarChart width={600} height={300} data={resultado}>
+                            <CartesianGrid strokeDasharray="3 3" />
+                            <XAxis dataKey={tipoDatos === "agrupados" ? "clase" : "valor"} />
+                            <YAxis />
+                            <Tooltip />
+                            <Legend />
+                            <Bar dataKey="frecAcumulada" fill="#82ca9d" />
+                        </BarChart>
+                    </div>
+                </div>
+            )}
+        </div>
+    );
+}
