@@ -1,12 +1,14 @@
 import React, { useState } from 'react';
+import classNames from 'classnames';
 import Encabezado from './Encabezado';
 import Tabla from './Tabla';
 import { useTabla } from '../contexts/TablaContext';
 import GraficaDistribucion from './GraficaDistribucion';
+import '../App.css';
 
 export default function Localizacion() {
     const { tabla } = useTabla();
-    const [tipo, setTipo] = useState('poblacion'); // valor por defecto
+    const [tipo, setTipo] = useState('poblacion');
     const [resultados, setResultados] = useState({ curtosis: null, tipoCurtosis: null });
 
     const calcularCurtosis = () => {
@@ -18,10 +20,8 @@ export default function Localizacion() {
             return;
         }
 
-        // Calcular media
         const media = datos.reduce((acc, val) => acc + val, 0) / n;
 
-        // Calcular varianza y desviación estándar
         const sumatoria = datos.reduce((acc, val) => acc + Math.pow(val - media, 2), 0);
         const varianza = tipo === 'poblacion' ? sumatoria / n : sumatoria / (n - 1);
         const desviacion = Math.sqrt(varianza);
@@ -31,14 +31,10 @@ export default function Localizacion() {
             return;
         }
 
-        // Calcular curtosis bruta
         const numerador = datos.reduce((acc, val) => acc + Math.pow((val - media) / desviacion, 4), 0);
         const curtosisBruta = tipo === 'poblacion' ? numerador / n : numerador / (n - 1);
-
-        // Curtosis excesiva
         const curtosisExcesiva = curtosisBruta - 3;
 
-        // Clasificación
         let tipoCurtosis = 'Mesocúrtica';
         if (curtosisExcesiva > 0) tipoCurtosis = 'Leptocúrtica';
         else if (curtosisExcesiva < 0) tipoCurtosis = 'Platicúrtica';
@@ -50,28 +46,25 @@ export default function Localizacion() {
     };
 
     return (
-        <div>
+        <div className={classNames('vista', 'localizacion')}>
             <Encabezado />
-            <h2>Localización (Curtosis)</h2>
+            <h2 className="titulo-vista">Localización (Curtosis)</h2>
             <Tabla />
 
-            {/* Selector población/muestra */}
-            <div style={{ marginTop: '15px' }}>
-                <label htmlFor="tipo">Tipo de datos:</label>{' '}
+            <div className="form-grupo">
+                <label htmlFor="tipo">Tipo de datos:&nbsp;</label>
                 <select id="tipo" value={tipo} onChange={(e) => setTipo(e.target.value)}>
                     <option value="poblacion">Población</option>
                     <option value="muestra">Muestra</option>
                 </select>
             </div>
 
-            {/* Botón calcular */}
-            <button onClick={calcularCurtosis} style={{ marginTop: '15px' }}>
+            <button className="btn" onClick={calcularCurtosis}>
                 Calcular
             </button>
 
-            {/* Resultados */}
-            <div style={{ marginTop: '20px' }}>
-                <p><strong>Curtosis :</strong> {resultados.curtosis}</p>
+            <div className="resultados">
+                <p><strong>Curtosis:</strong> {resultados.curtosis}</p>
                 <p><strong>Tipo:</strong> {resultados.tipoCurtosis}</p>
             </div>
         </div>

@@ -1,8 +1,16 @@
 import React from 'react';
-import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip } from 'recharts';
+import classNames from 'classnames';
+import '../App.css';
+import {
+  BarChart,
+  Bar,
+  XAxis,
+  YAxis,
+  CartesianGrid,
+  Tooltip
+} from 'recharts';
 
 export default function GraficaDistribucion({ datos }) {
-    // Agrupamos por valor redondeado para visualizar mejor
     const frecuencias = {};
 
     datos.forEach(dato => {
@@ -18,8 +26,8 @@ export default function GraficaDistribucion({ datos }) {
     }));
 
     return (
-        <div style={{ marginTop: '20px' }}>
-            <h4>Distribución de datos</h4>
+        <div className="grafica-distribucion-container">
+            <h4 className="grafica-titulo">Distribución de datos</h4>
             <BarChart width={500} height={300} data={data}>
                 <CartesianGrid strokeDasharray="3 3" />
                 <XAxis dataKey="valor" />
@@ -30,3 +38,4 @@ export default function GraficaDistribucion({ datos }) {
         </div>
     );
 }
+

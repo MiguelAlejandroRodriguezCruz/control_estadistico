@@ -1,7 +1,11 @@
+import { useState } from 'react';
+import classNames from 'classnames';
 import Encabezado from './Encabezado';
 import TablaColumnas from './TablaColumnas';
-import { useState } from 'react';
-import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer } from 'recharts';
+import '../App.css';
+import {
+    LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer
+} from 'recharts';
 
 export default function Limites() {
     const constantsTable = {
@@ -21,9 +25,8 @@ export default function Limites() {
 
     const calcularLimites = (datos) => {
         setFilas(datos);
-        const n = datos[0].length; // cantidad de columnas por fila
+        const n = datos[0].length;
         const constantes = constantsTable[n];
-
         if (!constantes) return alert('Número de columnas no válido');
 
         const medias = datos.map(fila => fila.reduce((acc, val) => acc + parseFloat(val), 0) / n);
@@ -54,20 +57,19 @@ export default function Limites() {
     };
 
     return (
-        <div>
+        <div className={classNames('vista', 'limites')}>
             <Encabezado />
-            <h2>Limites Reales</h2>
+            <h2 className="titulo-vista">Límites Reales</h2>
             <TablaColumnas onCalcular={calcularLimites} />
 
             {resultados && (
-                <div style={{ marginTop: '30px' }}>
+                <div className="contenedor-resultados">
                     <h3>Tabla de resultados</h3>
-
-                    <table border="1" cellPadding="10" style={{ marginBottom: '30px', borderCollapse: 'collapse' }}>
+                    <table className="tabla-limites">
                         <thead>
                             <tr>
-                                <th colSpan="4" style={{ textAlign: 'center' }}>Gráfica X̄</th>
-                                <th colSpan="4" style={{ textAlign: 'center' }}>Gráfica R</th>
+                                <th colSpan="4">Gráfica X̄</th>
+                                <th colSpan="4">Gráfica R</th>
                             </tr>
                             <tr>
                                 <th>Media (X̄)</th>
@@ -84,7 +86,7 @@ export default function Limites() {
                             {resultados.graficaX.map((x, i) => {
                                 const r = resultados.graficaR[i];
                                 return (
-                                    <tr key={`res-${i}`}>
+                                    <tr key={i}>
                                         <td>{x.media.toFixed(2)}</td>
                                         <td>{x.LC.toFixed(2)}</td>
                                         <td>{x.LCS.toFixed(2)}</td>
@@ -99,37 +101,41 @@ export default function Limites() {
                         </tbody>
                     </table>
 
+                    <div className="graficas">
+                        <div>
+                            <h3>Gráfica X̄</h3>
+                            <ResponsiveContainer width="100%" height={300}>
+                                <LineChart data={resultados.graficaX}>
+                                    <CartesianGrid strokeDasharray="3 3" />
+                                    <XAxis dataKey="muestra" />
+                                    <YAxis />
+                                    <Tooltip />
+                                    <Legend />
+                                    <Line type="monotone" dataKey="media" stroke="#8884d8" />
+                                    <Line type="monotone" dataKey="LC" stroke="#82ca9d" strokeDasharray="5 5" />
+                                    <Line type="monotone" dataKey="LCS" stroke="#ff7300" strokeDasharray="5 5" />
+                                    <Line type="monotone" dataKey="LCI" stroke="#ff7300" strokeDasharray="5 5" />
+                                </LineChart>
+                            </ResponsiveContainer>
+                        </div>
 
-
-                    <h3>Gráfica X̄</h3>
-                    <ResponsiveContainer width="100%" height={300}>
-                        <LineChart data={resultados.graficaX}>
-                            <CartesianGrid strokeDasharray="3 3" />
-                            <XAxis dataKey="muestra" />
-                            <YAxis />
-                            <Tooltip />
-                            <Legend />
-                            <Line type="monotone" dataKey="media" stroke="#8884d8" name="Media" />
-                            <Line type="monotone" dataKey="LC" stroke="#82ca9d" strokeDasharray="5 5" name="LC" />
-                            <Line type="monotone" dataKey="LCS" stroke="#ff7300" strokeDasharray="5 5" name="LCS" />
-                            <Line type="monotone" dataKey="LCI" stroke="#ff7300" strokeDasharray="5 5" name="LCI" />
-                        </LineChart>
-                    </ResponsiveContainer>
-
-                    <h3 style={{ marginTop: '30px' }}>Gráfica R</h3>
-                    <ResponsiveContainer width="100%" height={300}>
-                        <LineChart data={resultados.graficaR}>
-                            <CartesianGrid strokeDasharray="3 3" />
-                            <XAxis dataKey="muestra" />
-                            <YAxis />
-                            <Tooltip />
-                            <Legend />
-                            <Line type="monotone" dataKey="rango" stroke="#8884d8" name="Rango" />
-                            <Line type="monotone" dataKey="LC" stroke="#82ca9d" strokeDasharray="5 5" name="LC" />
-                            <Line type="monotone" dataKey="LCS" stroke="#ff7300" strokeDasharray="5 5" name="LCS" />
-                            <Line type="monotone" dataKey="LCI" stroke="#ff7300" strokeDasharray="5 5" name="LCI" />
-                        </LineChart>
-                    </ResponsiveContainer>
+                        <div className="grafica-r">
+                            <h3>Gráfica R</h3>
+                            <ResponsiveContainer width="100%" height={300}>
+                                <LineChart data={resultados.graficaR}>
+                                    <CartesianGrid strokeDasharray="3 3" />
+                                    <XAxis dataKey="muestra" />
+                                    <YAxis />
+                                    <Tooltip />
+                                    <Legend />
+                                    <Line type="monotone" dataKey="rango" stroke="#8884d8" />
+                                    <Line type="monotone" dataKey="LC" stroke="#82ca9d" strokeDasharray="5 5" />
+                                    <Line type="monotone" dataKey="LCS" stroke="#ff7300" strokeDasharray="5 5" />
+                                    <Line type="monotone" dataKey="LCI" stroke="#ff7300" strokeDasharray="5 5" />
+                                </LineChart>
+                            </ResponsiveContainer>
+                        </div>
+                    </div>
                 </div>
             )}
         </div>

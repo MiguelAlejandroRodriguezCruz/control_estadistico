@@ -1,10 +1,12 @@
 import React, { useState } from 'react';
+import classNames from 'classnames';
 import Encabezado from '../components/Encabezado';
 import Tabla from '../components/Tabla';
 import { useTabla } from '../contexts/TablaContext';
+import '../App.css';
 
 export default function TendenciaCentral() {
-    const { tabla } = useTabla(); // datos numéricos
+    const { tabla } = useTabla();
     const [resultados, setResultados] = useState({ media: null, mediana: null, moda: null });
 
     const calcularTendencia = () => {
@@ -15,18 +17,15 @@ export default function TendenciaCentral() {
             return;
         }
 
-        // Media
         const suma = datos.reduce((acc, val) => acc + val, 0);
         const media = suma / datos.length;
 
-        // Mediana
         const ordenados = [...datos].sort((a, b) => a - b);
         const mitad = Math.floor(ordenados.length / 2);
         const mediana = ordenados.length % 2 === 0
             ? (ordenados[mitad - 1] + ordenados[mitad]) / 2
             : ordenados[mitad];
 
-        // Moda
         const frecuencias = {};
         datos.forEach(num => {
             frecuencias[num] = (frecuencias[num] || 0) + 1;
@@ -45,16 +44,16 @@ export default function TendenciaCentral() {
     };
 
     return (
-        <div>
+        <div className="vista tendencia-central">
             <Encabezado />
-            <h2>Tendencia Central</h2>
+            <h2 className="titulo-vista">Tendencia Central</h2>
             <Tabla />
 
-            <button onClick={calcularTendencia} style={{ marginTop: '15px' }}>
+            <button className="btn" onClick={calcularTendencia}>
                 Calcular
             </button>
 
-            <div style={{ marginTop: '20px' }}>
+            <div className="resultados">
                 <p><strong>Media:</strong> {resultados.media}</p>
                 <p><strong>Mediana:</strong> {resultados.mediana}</p>
                 <p><strong>Moda:</strong> {resultados.moda}</p>

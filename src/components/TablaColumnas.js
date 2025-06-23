@@ -1,4 +1,6 @@
 import { useState } from 'react';
+import classNames from 'classnames';
+import '../App.css';
 
 export default function TablaColumnas({ onCalcular }) {
     const [datos, setDatos] = useState([[""]]);
@@ -47,15 +49,18 @@ export default function TablaColumnas({ onCalcular }) {
     };
 
     return (
-        <div>
+        <div className={classNames('tabla-columnas')}>
             <p>Datos a ingresar:</p>
 
-            <div style={{ display: 'flex', gap: '10px', marginBottom: '10px' }}>
-                <button onClick={handleAgregarColumna}>+ Columna</button>
-                <button onClick={handleQuitarColumna}>- Columna</button>
+            <div className="form-grupo">
+                <button className="btn btn-mas" onClick={handleAgregarColumna}>+ Columna</button>
+                <button className="btn btn-menos" onClick={handleQuitarColumna}>- Columna</button>
             </div>
 
-            <div style={{ display: 'grid', gridTemplateColumns: `repeat(${numColumnas}, 1fr)`, gap: '5px' }}>
+            <div
+                className="tabla-grid"
+                style={{ gridTemplateColumns: `repeat(${numColumnas}, 1fr)` }}
+            >
                 {datos.map((fila, filaIndex) =>
                     fila.map((valor, colIndex) => (
                         <input
@@ -63,19 +68,19 @@ export default function TablaColumnas({ onCalcular }) {
                             type="text"
                             value={valor}
                             onChange={(e) => handleInputChange(filaIndex, colIndex, e.target.value)}
-                            style={{ padding: '10px', textAlign: 'center' }}
+                            className="celda"
                         />
                     ))
                 )}
             </div>
 
-            <div style={{ display: 'flex', gap: '10px', margin: '10px 0' }}>
-                <button onClick={handleAgregarFila}>+ Fila</button>
-                <button onClick={handleQuitarFila}>- Fila</button>
+            <div className="form-grupo">
+                <button className="btn btn-mas" onClick={handleAgregarFila}>+ Fila</button>
+                <button className="btn btn-menos" onClick={handleQuitarFila}>- Fila</button>
             </div>
 
-            <div style={{ marginTop: '15px' }}>
-                <button onClick={handleCalcular}>Calcular</button>
+            <div className="form-grupo">
+                <button className="btn" onClick={handleCalcular}>Calcular</button>
             </div>
         </div>
     );

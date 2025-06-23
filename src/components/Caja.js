@@ -1,7 +1,9 @@
 import React, { useState } from 'react';
+import classNames from 'classnames';
 import Encabezado from './Encabezado';
 import Tabla from './Tabla';
 import { useTabla } from '../contexts/TablaContext';
+import '../App.css';
 
 export default function Caja() {
     const { tabla } = useTabla();
@@ -40,18 +42,18 @@ export default function Caja() {
     };
 
     return (
-        <div>
+        <div className="caja-container">
             <Encabezado />
-            <h2>Diagrama de Caja y Bigotes</h2>
+            <h2 className="caja-titulo">Diagrama de Caja y Bigotes</h2>
             <Tabla />
 
-            <div style={{ margin: '20px 0' }}>
-                <button onClick={calcularCaja}>Calcular</button>
+            <div className="botonera">
+                <button className="boton-calcular" onClick={calcularCaja}>Calcular</button>
             </div>
 
             {resultado && (
                 <>
-                    <div style={{ marginTop: '20px' }}>
+                    <div className="estadisticos">
                         <h3>Estadísticos</h3>
                         <ul>
                             <li>Mínimo: {resultado.min}</li>
@@ -62,15 +64,15 @@ export default function Caja() {
                         </ul>
                     </div>
 
-                    <h3>Boxplot</h3>
-                    <svg width={ancho} height={height}>
+                    <h3 className="boxplot-titulo">Boxplot</h3>
+                    <svg width={ancho} height={height} className="boxplot-svg">
                         {/* Línea base */}
                         <line
                             x1={escalarX(resultado.min)}
                             x2={escalarX(resultado.max)}
                             y1={height / 2}
                             y2={height / 2}
-                            stroke="black"
+                            className="linea-base"
                         />
 
                         {/* Bigotes */}
@@ -79,14 +81,14 @@ export default function Caja() {
                             x2={escalarX(resultado.min)}
                             y1={height / 2 - 20}
                             y2={height / 2 + 20}
-                            stroke="black"
+                            className="bigote"
                         />
                         <line
                             x1={escalarX(resultado.max)}
                             x2={escalarX(resultado.max)}
                             y1={height / 2 - 20}
                             y2={height / 2 + 20}
-                            stroke="black"
+                            className="bigote"
                         />
 
                         {/* Caja */}
@@ -95,8 +97,7 @@ export default function Caja() {
                             y={height / 2 - 25}
                             width={escalarX(resultado.q3) - escalarX(resultado.q1)}
                             height={50}
-                            fill="#ccc"
-                            stroke="black"
+                            className="caja"
                         />
 
                         {/* Mediana */}
@@ -105,18 +106,17 @@ export default function Caja() {
                             x2={escalarX(resultado.q2)}
                             y1={height / 2 - 25}
                             y2={height / 2 + 25}
-                            stroke="red"
-                            strokeWidth="2"
+                            className="mediana"
                         />
 
-                        {/* Etiquetas numéricas */}
-                        {['min', 'q1', 'q2', 'q3', 'max'].map((clave, i) => (
+                        {/* Etiquetas */}
+                        {['min', 'q1', 'q2', 'q3', 'max'].map((clave) => (
                             <text
                                 key={clave}
                                 x={escalarX(resultado[clave])}
                                 y={height / 2 + 45}
                                 textAnchor="middle"
-                                fontSize="12"
+                                className="etiqueta"
                             >
                                 {resultado[clave]}
                             </text>

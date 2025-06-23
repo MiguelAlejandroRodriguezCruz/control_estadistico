@@ -36,3 +36,616 @@
     transform: rotate(360deg);
   }
 }
+
+/* -------- Caja -------- */
+
+.caja-container {
+ padding: 2rem;
+  max-width: 800px;
+  margin: 0 auto;
+  font-family: 'Segoe UI', sans-serif;
+  background-color: #f9f9f9;
+  text-align: center;
+}
+
+.caja-titulo {
+  font-size: 3rem;
+  margin-bottom: 1rem;
+  color: #000000;
+  text-align: center;
+}
+
+.botonera {
+  margin: 20px 0;
+}
+
+.boton-calcular {
+  margin-top: 15px;
+  padding: 0.5rem 1rem;
+  background-color: #2e6fd5;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 1.2rem;
+}
+
+.boton-calcular:hover {
+  background-color: #125c93;
+}
+
+.estadisticos {
+  margin-top: 20px;
+  background: #ffffff;
+  padding: 1.5rem;
+  border-radius: 8px;
+  box-shadow: 0 1px 4px rgba(0,0,0,0.1);
+  font-size: 1.4rem;
+}
+
+.boxplot-titulo {
+  margin-top: 30px;
+}
+
+.boxplot-svg {
+  margin-top: 10px;
+  background-color: #fff;
+}
+
+.linea-base {
+  stroke: black;
+}
+
+.bigote {
+  stroke: black;
+}
+
+.caja {
+  fill: #ccc;
+  stroke: black;
+}
+
+.mediana {
+  stroke: red;
+  stroke-width: 2;
+}
+
+.etiqueta {
+  font-size: 12px;
+  fill: #333;
+}
+
+/* -------- Dispersion -------- */
+
+.dispersion-container {
+  padding: 2rem;
+  max-width: 800px;
+  margin: 0 auto;
+  font-family: 'Segoe UI', sans-serif;
+  background-color: #f9f9f9;
+  text-align: center;
+}
+
+.dispersion-titulo {
+  font-size: 3rem;
+  margin-bottom: 1rem;
+  color: #000000;
+  text-align: center;
+}
+
+.selector-tipo {
+  margin-top: 15px;
+  font-size: 1.5rem;
+}
+
+.select-tipo {
+  margin-left: 10px;
+  padding: 0.3rem 0.6rem;
+  border-radius: 5px;
+  border: 1px solid #ccc;
+  font-size: 1.2rem;
+  width: 200px;
+}
+
+.boton-calcular {
+  margin-top: 15px;
+  padding: 0.5rem 1rem;
+  background-color: #2e6fd5;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 1.2rem;
+}
+
+.boton-calcular:hover {
+  background-color: #125c93;
+}
+
+.resultado-dispersion {
+  margin-top: 20px;
+  background: #ffffff;
+  padding: 1.5rem;
+  border-radius: 8px;
+  box-shadow: 0 1px 4px rgba(0,0,0,0.1);
+  font-size: 1.4rem;
+}
+
+
+/* -------- Encabezado -------- */
+
+.nav-encabezado {
+  background-color: #eeeeee;
+  padding: 10px 20px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  align-items: center;
+  font-family: 'Segoe UI', sans-serif;
+  justify-content: center;  
+  flex-wrap: wrap;
+  row-gap: 0.5rem;
+  text-align: center;
+  width: 100%;
+}
+
+.nav-link {
+  text-decoration: none;
+  color: #1f77b4;
+  font-weight: 500;
+  text-align: center;
+}
+
+.nav-link:hover {
+  text-decoration: underline;
+  color: #125c93;
+  text-align: center;
+}
+
+.nav-separador {
+  color: #999;
+  font-weight: bold;
+  text-align: center;
+}
+
+/* -------- Forma -------- */
+
+.forma-container {
+  padding: 2rem;
+  max-width: 800px;
+  margin: 0 auto;
+  font-family: 'Segoe UI', sans-serif;
+  background-color: #f9f9f9;
+  text-align: center;
+}
+
+.forma-titulo {
+  font-size: 3rem;
+  margin-bottom: 1rem;
+  color: #000000;
+  text-align: center;
+}
+
+.selector-tipo {
+  margin-top: 15px;
+  font-size: 1.5rem;
+}
+
+.select-tipo {
+  margin-left: 10px;
+  padding: 0.3rem 0.6rem;
+  border-radius: 5px;
+  border: 1px solid #ccc;
+  font-size: 1.2rem;
+  width: 200px;
+}
+
+.boton-calcular {
+  margin-top: 15px;
+  padding: 0.5rem 1rem;
+  background-color: #1f77b4;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 1.2rem;
+}
+
+.boton-calcular:hover {
+  background-color: #125c93;
+}
+
+.resultado-forma {
+  margin-top: 20px;
+  background: #ffffff;
+  padding: 1.5rem;
+  border-radius: 8px;
+  box-shadow: 0 1px 4px rgba(0,0,0,0.1);
+  font-size: 1.4rem;
+}
+
+/* -------- Gráfica de Distribución -------- */
+
+.grafica-distribucion-container {
+  margin-top: 20px;
+  background-color: #ffffff;
+  padding: 1rem;
+  border-radius: 10px;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+  width: fit-content;
+}
+
+.grafica-titulo {
+  margin-bottom: 1rem;
+  font-size: 1.2rem;
+  color: #1f77b4;
+  font-weight: bold;
+  text-align: center;
+}
+
+/* -------- Histograma -------- */
+
+.histo-container {
+  padding: 2rem;
+  max-width: 800px;
+  margin: 0 auto;
+  font-family: 'Segoe UI', sans-serif;
+  background-color: #f9f9f9;
+  text-align: center;
+}
+
+.histo-titulo {
+  font-size: 3rem;
+  margin-bottom: 1rem;
+  color: #000000;
+  text-align: center;
+}
+
+.selector-tipo {
+  margin-top: 15px;
+  font-size: 1.5rem;
+}
+
+.select-tipo {
+  margin-left: 10px;
+  padding: 0.3rem 0.6rem;
+  border-radius: 5px;
+  border: 1px solid #ccc;
+  font-size: 1.2rem;
+  width: 200px;
+}
+
+.boton-calcular {
+  padding: 0.5rem 1rem;
+  background-color: #1f77b4;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  margin-bottom: 20px;
+  font-size: 1.2rem;
+}
+
+.boton-calcular:hover {
+  background-color: #125c93;
+}
+
+.info-agrupados {
+  margin-top: 20px;
+  background: #ffffff;
+  padding: 1.5rem;
+  border-radius: 8px;
+  box-shadow: 0 1px 4px rgba(0,0,0,0.1);
+  font-size: 1.4rem;
+}
+
+.resultados-histograma {
+  margin-top: 20px;
+}
+
+.tabla-frecuencias {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 10px;
+  font-size: 0.9rem;
+}
+
+.tabla-frecuencias th,
+.tabla-frecuencias td {
+  border: 1px solid #ddd;
+  padding: 8px;
+  text-align: center;
+}
+
+.tabla-frecuencias th {
+  background-color: #f0f0f0;
+  color: #333;
+}
+
+.graficas {
+  margin-top: 40px;
+}
+
+/* -------- Inicio -------- */
+
+.inicio-container {
+  padding: 2rem;
+  max-width: 800px;
+  margin: 0 auto;
+  font-family: 'Segoe UI', sans-serif;
+  background-color: #f9f9f9;
+  text-align: center;
+}
+
+/* -------- Límites -------- */
+.vista {
+  padding: 2rem;
+  font-family: 'Segoe UI', sans-serif;
+  background-color: #fafafa;
+}
+
+.titulo-vista {
+  font-size: 1.8rem;
+  margin-bottom: 1rem;
+}
+
+.contenedor-resultados {
+  margin-top: 30px;
+}
+
+.tabla-limites {
+  width: 100%;
+  border-collapse: collapse;
+  margin-bottom: 30px;
+  font-size: 14px;
+}
+
+.tabla-limites th,
+.tabla-limites td {
+  border: 1px solid #ccc;
+  padding: 10px;
+  text-align: center;
+}
+
+.graficas {
+  margin-top: 30px;
+  display: flex;
+  flex-direction: column;
+  gap: 40px;
+}
+
+.grafica-r {
+  margin-top: 30px;
+}
+
+/* -------- Localización -------- */
+.vista {
+  padding: 2rem;
+  font-family: 'Segoe UI', sans-serif;
+  background-color: #fdfdfd;
+}
+
+.titulo-vista {
+  font-size: 1.8rem;
+  margin-bottom: 1rem;
+}
+
+.form-grupo {
+  margin-top: 1rem;
+}
+
+.btn {
+  margin-top: 1rem;
+  padding: 0.5rem 1.2rem;
+  font-size: 1rem;
+  background-color: #2e6fd5;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.btn:hover {
+  background-color: #1b4ea0;
+}
+
+.resultados {
+  margin-top: 1.5rem;
+  font-size: 1rem;
+}
+
+/* -------- Parámetros -------- */
+.vista {
+  padding: 2rem;
+  font-family: 'Segoe UI', sans-serif;
+  background-color: #fdfdfd;
+}
+
+.titulo-vista {
+  font-size: 1.8rem;
+  margin-bottom: 1rem;
+}
+
+.form-grupo {
+  margin-top: 1rem;
+}
+
+.btn {
+  margin-top: 1rem;
+  padding: 0.5rem 1.2rem;
+  font-size: 1rem;
+  background-color: #2e6fd5;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.btn:hover {
+  background-color: #1b4ea0;
+}
+
+.resultados {
+  margin-top: 1.5rem;
+  font-size: 1rem;
+}
+
+/* -------- Tabla -------- */
+.tabla-contenedor {
+  margin-top: 1rem;
+  font-size: 1rem;
+  text-align: center;
+}
+
+.input-numero {
+  padding: 0.4rem;
+  width: 100px;
+  margin-right: 0.5rem;
+  font-size: 1rem;
+}
+
+.tabla-inputs {
+  margin-top: 1rem;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(60px, 1fr));
+  gap: 5px;
+  align-items: center;
+}
+
+.celda {
+  padding: 0.5rem;
+  text-align: center;
+  font-size: 1rem;
+  align-items: center;
+}
+
+.form-grupo {
+  margin-top: 1rem;
+}
+
+.btn {
+  padding: 0.5rem 1rem;
+  background-color: #2e6fd5;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  margin-right: 5px;
+  cursor: pointer;
+}
+
+.btn:hover {
+  background-color: #1f53a4;
+}
+
+.btn-mas {
+  background-color: #4caf50;
+}
+
+.btn-mas:hover {
+  background-color: #388e3c;
+}
+
+.btn-menos {
+  background-color: #f44336;
+}
+
+.btn-menos:hover {
+  background-color: #c62828;
+}
+
+/* -------- Tabla Columnas -------- */
+.tabla-columnas {
+  margin-top: 1rem;
+  text-align: center;
+  align-items: center;
+  align-content: center;
+}
+
+.tabla-grid {
+  display: grid;
+  gap: 5px;
+  margin-top: 10px;
+  text-align: center;
+  align-items: center;
+}
+
+.celda {
+  padding: 10px;
+  text-align: center;
+  font-size: 1rem;
+}
+
+.form-grupo {
+  margin-top: 1rem;
+  display: flex;
+  gap: 10px;
+}
+
+.btn {
+  padding: 0.5rem 1rem;
+  background-color: #2e6fd5;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.btn:hover {
+  background-color: #1f53a4;
+}
+
+.btn-mas {
+  background-color: #4caf50;
+}
+
+.btn-mas:hover {
+  background-color: #388e3c;
+}
+
+.btn-menos {
+  background-color: #f44336;
+}
+
+.btn-menos:hover {
+  background-color: #c62828;
+}
+
+/* -------- Tendencia Central -------- */
+.vista {
+  padding: 2rem;
+  max-width: 800px;
+  margin: 0 auto;
+}
+
+.titulo-vista {
+  font-size: 3rem;
+  margin-bottom: 1rem;
+  color: #333;
+  text-align: center;
+}
+
+.btn {
+  margin-top: 15px;
+  padding: 0.5rem 1.2rem;
+  font-size: 1rem;
+  background-color: #2e6fd5;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.btn:hover {
+  background-color: #1e56aa;
+}
+
+.resultados {
+  margin-top: 20px;
+  font-size: 2.2rem;
+}
+
+.resultados p {
+  margin: 8px 0;
+}

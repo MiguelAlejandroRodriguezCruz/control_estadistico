@@ -1,7 +1,9 @@
 import React, { useState } from 'react';
+import classNames from 'classnames';
 import Encabezado from './Encabezado';
 import Tabla from './Tabla';
 import { useTabla } from '../contexts/TablaContext';
+import '../App.css';
 
 export default function Parametros() {
     const { tabla } = useTabla();
@@ -15,27 +17,27 @@ export default function Parametros() {
         const max = Math.max(...datos);
         const rango = max - min;
 
-        const k = Math.ceil(Math.sqrt(n)); // número de clases
-        const w = Math.ceil(rango / k);    // tamaño de clase
+        const k = Math.round(1 + 3.3*Math.log10(n)); // número de clases
+        const w = (rango / k);    // tamaño de clase
 
         setInfoAgrupados({ n, min, max, rango, k, w });
         setMostrar(true);
     };
 
     return (
-        <div>
+        <div className={classNames('vista', 'parametros')}>
             <Encabezado />
-            <h2>Parámetros</h2>
+            <h2 className="titulo-vista">Parámetros</h2>
             <Tabla />
 
-            {/* Botón para mostrar los cálculos */}
-            <div style={{ marginTop: '20px' }}>
-                <button onClick={calcularParametros}>Calcular</button>
+            <div className="form-grupo">
+                <button className="btn" onClick={calcularParametros}>
+                    Calcular
+                </button>
             </div>
 
-            {/* Mostrar resultados solo si se presionó el botón */}
             {mostrar && infoAgrupados && (
-                <div style={{ marginTop: '20px' }}>
+                <div className="resultados">
                     <h3>Parámetros agrupados</h3>
                     <p><strong>Total de datos:</strong> {infoAgrupados.n}</p>
                     <p><strong>Mínimo:</strong> {infoAgrupados.min}</p>

@@ -1,8 +1,18 @@
 import React, { useState } from 'react';
+import classNames from 'classnames';
 import Encabezado from './Encabezado';
 import Tabla from './Tabla';
 import { useTabla } from '../contexts/TablaContext';
-import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, Legend } from 'recharts';
+import '../App.css';
+import {
+    BarChart,
+    Bar,
+    XAxis,
+    YAxis,
+    CartesianGrid,
+    Tooltip,
+    Legend
+} from 'recharts';
 
 export default function Histo_Frec() {
     const { tabla } = useTabla();
@@ -38,13 +48,12 @@ export default function Histo_Frec() {
             setResultado(resultadoCalculado);
             setInfoAgrupados(null);
         } else {
-            // Agrupados
             const n = datosNumericos.length;
             const min = Math.min(...datosNumericos);
             const max = Math.max(...datosNumericos);
             const rango = max - min;
             const k = Math.round(1 + 3.3 * Math.log10(n));
-            const w = Math.ceil(rango / k);
+            const w = (rango / k);
 
             const clases = [];
             let limInf = min;
@@ -55,9 +64,8 @@ export default function Histo_Frec() {
                 const clase = `${limInf.toFixed(2)} - ${limSup.toFixed(2)}`;
                 const marca = (limInf + limSup) / 2;
 
-                // frecuencia de datos dentro del intervalo (excluyendo el último sup)
                 const frecuencia = datosNumericos.filter(d => {
-                    if (i === k - 1) return d >= limInf && d <= limSup; // incluir extremo superior en la última clase
+                    if (i === k - 1) return d >= limInf && d <= limSup;
                     return d >= limInf && d < limSup;
                 }).length;
 
@@ -83,30 +91,34 @@ export default function Histo_Frec() {
     };
 
     return (
-        <div>
+        <div className="histo-container">
             <Encabezado />
-            <h2>Histograma y Tabla de Frecuencias</h2>
+            <h2 className="histo-titulo">Histograma y Tabla de Frecuencias</h2>
             <Tabla />
 
-            <div style={{ margin: '20px 0' }}>
-                <label>Tipo de datos:&nbsp;</label>
+            <div className="selector-tipo">
+                <label htmlFor="tipoDatos">Tipo de datos:&nbsp;</label>
                 <select
+                    id="tipoDatos"
                     value={tipoDatos}
                     onChange={(e) => {
                         setTipoDatos(e.target.value);
                         setResultado([]);
                         setInfoAgrupados(null);
                     }}
+                    className="select-tipo"
                 >
                     <option value="desagrupados">Desagrupados</option>
                     <option value="agrupados">Agrupados</option>
                 </select>
             </div>
 
-            <button onClick={calcularFrecuencias}>Calcular</button>
+            <button className="boton-calcular" onClick={calcularFrecuencias}>
+                Calcular
+            </button>
 
             {infoAgrupados && (
-                <div style={{ marginTop: '20px' }}>
+                <div className="info-agrupados">
                     <h3>Parámetros agrupados</h3>
                     <p><strong>Total de datos:</strong> {infoAgrupados.n}</p>
                     <p><strong>Mínimo:</strong> {infoAgrupados.min}</p>
@@ -118,9 +130,9 @@ export default function Histo_Frec() {
             )}
 
             {resultado.length > 0 && (
-                <div style={{ marginTop: '20px' }}>
+                <div className="resultados-histograma">
                     <h3>Tabla de Frecuencias</h3>
-                    <table border="1" cellPadding="5">
+                    <table className="tabla-frecuencias">
                         <thead>
                             <tr>
                                 {tipoDatos === 'agrupados' ? (
@@ -161,7 +173,7 @@ export default function Histo_Frec() {
                         </tbody>
                     </table>
 
-                    <div style={{ marginTop: '40px' }}>
+                    <div className="graficas">
                         <h4>Histograma de Frecuencia</h4>
                         <BarChart width={600} height={300} data={resultado}>
                             <CartesianGrid strokeDasharray="3 3" />
@@ -172,7 +184,7 @@ export default function Histo_Frec() {
                             <Bar dataKey="frecuencia" fill="#8884d8" />
                         </BarChart>
 
-                        <h4 style={{ marginTop: '40px' }}>Histograma de Frecuencia Acumulada</h4>
+                        <h4>Histograma de Frecuencia Acumulada</h4>
                         <BarChart width={600} height={300} data={resultado}>
                             <CartesianGrid strokeDasharray="3 3" />
                             <XAxis dataKey={tipoDatos === "agrupados" ? "clase" : "valor"} />
