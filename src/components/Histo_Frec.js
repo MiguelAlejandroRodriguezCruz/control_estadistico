@@ -21,6 +21,20 @@ export default function Histo_Frec() {
     const [infoAgrupados, setInfoAgrupados] = useState(null);
 
     const calcularFrecuencias = () => {
+
+        // Verificar si hay al menos una celda
+        if (tabla.length === 0) {
+            alert("Debe ingresar al menos un valor antes de calcular.");
+            return;
+        }
+
+        const hayVacios = tabla.some(valor => valor.trim() === "");
+
+        if (hayVacios) {
+            alert("Por favor, complete todas las celdas antes de calcular.");
+            return;
+        }
+
         const datosNumericos = tabla.map(Number).filter(n => !isNaN(n));
         if (tipoDatos === "desagrupados") {
             const conteo = {};

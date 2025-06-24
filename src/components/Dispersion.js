@@ -11,6 +11,20 @@ export default function Dispersion() {
     const [resultados, setResultados] = useState({ varianza: null, desviacion: null });
 
     const calcularDispersion = () => {
+
+        // Verificar si hay al menos una celda
+        if (tabla.length === 0) {
+            alert("Debe ingresar al menos un valor antes de calcular.");
+            return;
+        }
+
+        const hayVacios = tabla.some(valor => valor.trim() === "");
+
+        if (hayVacios) {
+            alert("Por favor, complete todas las celdas antes de calcular.");
+            return;
+        }
+
         const datos = tabla.map(num => parseFloat(num)).filter(num => !isNaN(num));
 
         if (datos.length === 0) {

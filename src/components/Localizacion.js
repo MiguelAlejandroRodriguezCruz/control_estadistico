@@ -12,6 +12,20 @@ export default function Localizacion() {
     const [resultados, setResultados] = useState({ curtosis: null, tipoCurtosis: null });
 
     const calcularCurtosis = () => {
+
+        // Verificar si hay al menos una celda
+        if (tabla.length === 0) {
+            alert("Debe ingresar al menos un valor antes de calcular.");
+            return;
+        }
+
+        const hayVacios = tabla.some(valor => valor.trim() === "");
+
+        if (hayVacios) {
+            alert("Por favor, complete todas las celdas antes de calcular.");
+            return;
+        }
+
         const datos = tabla.map(num => parseFloat(num)).filter(num => !isNaN(num));
         const n = datos.length;
 
@@ -27,7 +41,7 @@ export default function Localizacion() {
         const desviacion = Math.sqrt(varianza);
 
         if (desviacion === 0) {
-            setResultados({ curtosis: 0, tipoCurtosis: 'Indefinido (sin variación)' });
+            setResultados({ curtosis: 0, tipoCurtosis: 'sin variación' });
             return;
         }
 

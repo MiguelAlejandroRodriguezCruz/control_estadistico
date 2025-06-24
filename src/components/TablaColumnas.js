@@ -7,7 +7,7 @@ export default function TablaColumnas({ onCalcular }) {
     const [numColumnas, setNumColumnas] = useState(1);
 
     const handleAgregarColumna = () => {
-        if (numColumnas < 5) {
+        if (numColumnas < 20) {
             setDatos(prev => prev.map(fila => [...fila, ""]));
             setNumColumnas(prev => prev + 1);
         }
@@ -39,14 +39,26 @@ export default function TablaColumnas({ onCalcular }) {
     };
 
     const handleCalcular = () => {
+        // Verificar que todas las celdas estén llenas
+        const celdasIncompletas = datos.some(fila =>
+            fila.some(valor => valor.trim() === "")
+        );
+
+        if (celdasIncompletas) {
+            alert("Por favor, complete todas las celdas antes de calcular.");
+            return;
+        }
+
+        // Convertir los datos a números
         const datosNumericos = datos.map(fila =>
-            fila.map(valor => parseFloat(valor)).filter(num => !isNaN(num))
-        ).filter(fila => fila.length > 0);
+            fila.map(valor => parseFloat(valor))
+        );
 
         if (onCalcular) {
             onCalcular(datosNumericos);
         }
     };
+
 
     return (
         <div className={classNames('tabla-columnas')}>

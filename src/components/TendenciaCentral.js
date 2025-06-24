@@ -10,6 +10,20 @@ export default function TendenciaCentral() {
     const [resultados, setResultados] = useState({ media: null, mediana: null, moda: null });
 
     const calcularTendencia = () => {
+
+        // Verificar si hay al menos una celda
+        if (tabla.length === 0) {
+            alert("Debe ingresar al menos un valor antes de calcular.");
+            return;
+        }
+
+        const hayVacios = tabla.some(valor => valor.trim() === "");
+
+        if (hayVacios) {
+            alert("Por favor, complete todas las celdas antes de calcular.");
+            return;
+        }
+
         const datos = tabla.map(num => parseFloat(num)).filter(num => !isNaN(num));
 
         if (datos.length === 0) {

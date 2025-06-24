@@ -10,6 +10,20 @@ export default function Caja() {
     const [resultado, setResultado] = useState(null);
 
     const calcularCaja = () => {
+
+        // Verificar si hay al menos una celda
+        if (tabla.length === 0) {
+            alert("Debe ingresar al menos un valor antes de calcular.");
+            return;
+        }
+
+        const hayVacios = tabla.some(valor => valor.trim() === "");
+
+        if (hayVacios) {
+            alert("Por favor, complete todas las celdas antes de calcular.");
+            return;
+        }
+
         const datos = tabla.map(Number).filter(x => !isNaN(x)).sort((a, b) => a - b);
         const n = datos.length;
 
